@@ -10,7 +10,7 @@ export class ClienteService {
 
   constructor() { }
 
-  getClientes():Observable <Cliente []> {
+  getClientes():Observable <Cliente[]> {
     return of(CLIENTES);
   }
 }
