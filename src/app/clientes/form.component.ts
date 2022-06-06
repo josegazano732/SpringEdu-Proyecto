@@ -8,7 +8,7 @@ import { Cliente } from './cliente';
 })
 export class FormComponent implements OnInit {
 
-  titulo="Formulario";
+  titulo:string="Crear Cliente";
 
   cliente:Cliente= new Cliente();
 
