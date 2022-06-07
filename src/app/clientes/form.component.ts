@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Cliente } from './cliente';
+import { ClienteService } from './cliente.service';
 
 @Component({
   selector: 'app-form',
@@ -12,14 +14,15 @@ export class FormComponent implements OnInit {
 
   cliente:Cliente= new Cliente();
 
-  constructor() { }
+  constructor(private clienteService:ClienteService, private route:Router ) { }
 
   ngOnInit(): void {
   }
 
   create(): void {
-    console.log("clicked");
-    console.log(this.cliente);
+    this.clienteService.create(this.cliente).subscribe(
+      response => this.route.navigate(['/clientes'])
+    );
 
   }
 
