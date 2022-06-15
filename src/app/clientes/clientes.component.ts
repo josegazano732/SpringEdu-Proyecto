@@ -36,8 +36,8 @@ export class ClientesComponent implements OnInit {
       text: `¿Seguro desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Si, Eliminar!',
-      cancelButtonText: 'No, cancelar!',
+      confirmButtonText: 'Eliminar!',
+      cancelButtonText: 'Cancelar',
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
