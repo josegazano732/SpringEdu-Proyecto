@@ -30,20 +30,22 @@ export class FormComponent implements OnInit {
     })
   }
 
+  //Metodo usando operador map en servicio
   create(): void {
     this.clienteService.create(this.cliente).subscribe(
-      response => { 
+      cliente => { 
       this.route.navigate(['/clientes'])
-      Swal.fire('Nuevo Cliente', `${response.mensaje}: ${this.cliente.nombre}`, 'success');
+      Swal.fire('Nuevo Cliente', `El cliente ${cliente.nombre} ha sido creado con exito`, 'success');
       }
     );
   }
-
+  
+   //Metodo sin operador map en servicio con tipo ANY generico y el mensaje y nombre obtenemos directamente del back-end 
   update():void{
     this.clienteService.update(this.cliente)
-    .subscribe(cliente =>{
+    .subscribe(json =>{
       this.route.navigate(['/clientes'])
-      Swal.fire('Cliente Actualizado', `${cliente.mensaje}: ${this.cliente.nombre}`, 'success' )
+      Swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success' )
     })
   }
 
