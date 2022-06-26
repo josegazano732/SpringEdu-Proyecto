@@ -40,8 +40,8 @@ export class FormComponent implements OnInit {
       },
       err => {
         this.errores = err.error.errors as string[];
-        console.error('Codigo del error desde el backend: ' + err.status);
-        console.error(err.error.errors);
+        console.log('Codigo del error desde el backend: ' + err.status);
+        console.log(err.error.errors);
       }
     );
   }
@@ -51,12 +51,12 @@ export class FormComponent implements OnInit {
     this.clienteService.update(this.cliente)
     .subscribe(json =>{
       this.route.navigate(['/clientes'])
-      Swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success' )
+      Swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success' );
     },
     err => {
       this.errores = err.error.errors as string[];
-      console.error('Codigo del error desde el backend: ' + err.status);
-      console.error(err.error.errors);
+      console.log('Codigo del error desde el backend: ' + err.status);
+      console.log(err.error.errors);
     }
     );
   }
