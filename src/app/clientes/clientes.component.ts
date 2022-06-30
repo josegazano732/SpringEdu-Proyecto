@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service';
 import { tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -12,26 +13,34 @@ import { tap } from 'rxjs';
 })
 export class ClientesComponent implements OnInit {
 
-  clientes: Cliente [] ;
+  clientes: Cliente[];
 
 
-  constructor(private http:ClienteService) { }
+  constructor(private http: ClienteService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    let page = 0;
-    this.http.getClientes(page).pipe(
-      tap(response => {
-        console.log('ClienteComponent: Tap 3');
-        (response.content as Cliente[]).forEach(cliente =>{
-          console.log(cliente.nombre);
-        });
-      })
-    ).subscribe(
-      response => this.clientes = response.content as Cliente[]
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page: number = +params.get('page');
+      if (!page) {
+        page = 0;
+      }
+      this.http.getClientes(page).pipe(
+        tap(response => {
+          console.log('ClienteComponent: Tap 3');
+          (response.content as Cliente[]).forEach(cliente => {
+            console.log(cliente.nombre);
+          });
+        })
+      ).subscribe(
+        response => this.clientes = response.content as Cliente[]
+      );
+    }
     );
   }
 
-  delete(cliente:Cliente): void{
+  delete(cliente: Cliente): void {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -39,7 +48,7 @@ export class ClientesComponent implements OnInit {
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
       title: 'Esta seguro?',
       text: `¿Seguro desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}`,
@@ -52,7 +61,7 @@ export class ClientesComponent implements OnInit {
       if (result.isConfirmed) {
         this.http.delete(cliente.id).subscribe(
           response => {
-            this.clientes = this.clientes.filter(cli  => cli !== cliente)
+            this.clientes = this.clientes.filter(cli => cli !== cliente)
             swalWithBootstrapButtons.fire(
               'Cliente Eliminado!',
               `Cliente ${cliente.nombre} elimindado con exito.`,
@@ -60,8 +69,8 @@ export class ClientesComponent implements OnInit {
             )
           }
         )
-        
-      } 
+
+      }
     })
   }
 
