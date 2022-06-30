@@ -8,12 +8,15 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
-
-import { ClienteService } from './clientes/cliente.service';
+import { PaginatorComponent } from './paginator/paginator.component';
 import { FormComponent } from './clientes/form.component';
 import { FormsModule } from '@angular/forms';
+
+import { ClienteService } from './clientes/cliente.service';
+
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es-AR';
+
 
 registerLocaleData(localeES, 'es')
 
@@ -35,7 +38,8 @@ const routes: Routes = [
     FooterComponent,
     DirectivaComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,
