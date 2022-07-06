@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DetalleComponent } from './clientes/detalle/detalle.component';
 
 
 
@@ -48,6 +49,7 @@ const routes: Routes = [
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
+    DetalleComponent,
     
   ],
   imports: [
