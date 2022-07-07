@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class DetalleComponent implements OnInit {
   cliente: Cliente;
   titulo:string= "Detalle del cliente";
-  private fotoSeleccionada:File;
+  fotoSeleccionada:File;
 
   constructor(private clienteService:ClienteService,
      private activateRoute:ActivatedRoute) { }
@@ -32,15 +32,22 @@ export class DetalleComponent implements OnInit {
   seleccionarFoto(event){
     this.fotoSeleccionada = event.target.files[0];
     console.log(this.fotoSeleccionada);
-    
+    if (this.fotoSeleccionada.type.indexOf('image') < 0) {
+      Swal.fire('Error seleccionar imagen: ','El archivo debe ser de tipo imagen', 'error');
+      this.fotoSeleccionada = null;
+    }
   }
 
   subirFoto(){
+    if (!this.fotoSeleccionada) {
+      Swal.fire('Error upload: ','debe seleccionar una foto', 'error');
+    }else{
     this.clienteService.subirFoto(this.fotoSeleccionada, this.cliente.id).
     subscribe(cliente => {
       this.cliente = cliente;
       Swal.fire('La foto se cargo completamente!',`Foto se ha subido con exito: ${this.cliente.foto}`, 'success')
     });
+  }
   }
 
 }
