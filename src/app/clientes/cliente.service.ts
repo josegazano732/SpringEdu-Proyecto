@@ -106,7 +106,7 @@ export class ClienteService {
     )
   }
 
-  subriFoto(archivo:File, id):Observable<Cliente>{
+  subirFoto(archivo:File, id):Observable<Cliente>{
     let formData = new FormData();
     formData.append("archivo",archivo);
     formData.append("id",id);

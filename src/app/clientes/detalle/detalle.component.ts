@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../cliente';
 import { ClienteService } from '../cliente.service';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'detalle-cliente',
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class DetalleComponent implements OnInit {
   cliente: Cliente;
   titulo:string= "Detalle del cliente";
-  private fotoSleccionada:File;
+  private fotoSeleccionada:File;
 
   constructor(private clienteService:ClienteService,
      private activateRoute:ActivatedRoute) { }
@@ -22,22 +23,24 @@ export class DetalleComponent implements OnInit {
       if(id){
         this.clienteService.getCliente(id).subscribe(cliente =>{
           this.cliente =  cliente;
+          
         });
       }
     });
   }
 
   seleccionarFoto(event){
-    this.fotoSleccionada = event.target.files[0];
-    console.log(fotoSleccionada);
+    this.fotoSeleccionada = event.target.files[0];
+    console.log(this.fotoSeleccionada);
     
   }
 
   subirFoto(){
-    this.clienteService.subriFoto(this.fotoSleccionada, this.cliente.id).
+    this.clienteService.subirFoto(this.fotoSeleccionada, this.cliente.id).
     subscribe(cliente => {
       this.cliente = cliente;
-    })
+      Swal.fire('La foto se cargo completamente!',`Foto se ha subido con exito: ${this.cliente.foto}`, 'success')
+    });
   }
 
 }
