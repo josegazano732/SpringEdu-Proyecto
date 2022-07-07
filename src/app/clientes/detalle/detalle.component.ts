@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetalleComponent implements OnInit {
   cliente: Cliente;
+  titulo:string= "Detalle del cliente";
+
   constructor(private clienteService:ClienteService, private activateRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
