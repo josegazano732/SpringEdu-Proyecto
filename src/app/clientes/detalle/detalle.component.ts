@@ -11,8 +11,10 @@ import { ActivatedRoute } from '@angular/router';
 export class DetalleComponent implements OnInit {
   cliente: Cliente;
   titulo:string= "Detalle del cliente";
+  private fotoSleccionada:File;
 
-  constructor(private clienteService:ClienteService, private activateRoute:ActivatedRoute) { }
+  constructor(private clienteService:ClienteService,
+     private activateRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activateRoute.paramMap.subscribe(params=>{
@@ -20,13 +22,22 @@ export class DetalleComponent implements OnInit {
       if(id){
         this.clienteService.getCliente(id).subscribe(cliente =>{
           this.cliente =  cliente;
-        }
-
-        )
+        });
       }
-    }
+    });
+  }
 
-    );
+  seleccionarFoto(event){
+    this.fotoSleccionada = event.target.files[0];
+    console.log(fotoSleccionada);
+    
+  }
+
+  subirFoto(){
+    this.clienteService.subriFoto(this.fotoSleccionada, this.cliente.id).
+    subscribe(cliente => {
+      this.cliente = cliente;
+    })
   }
 
 }
