@@ -15,6 +15,7 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
   paginador:any;
+  clienteSeleccionado:Cliente;
 
 
   constructor(private http: ClienteService,
@@ -75,6 +76,10 @@ export class ClientesComponent implements OnInit {
 
       }
     })
+  }
+
+  abrirModal(cliente:Cliente){
+    this.clienteSeleccionado = cliente;
   }
 
 }
