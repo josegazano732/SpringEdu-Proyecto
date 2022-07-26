@@ -20,17 +20,30 @@ export class ClienteService {
 
   constructor(private http: HttpClient, private router:Router) { }
 
+  public isNoAutorizado(e:any):boolean{
+    if (e.status == 401 || e.status == 403) {
+      this.router.navigate(['/login']);
+      return true;
+    }
+    return false;
+  }
+
   getRegiones():Observable <Region[]> {
-    return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
+    return this.http.get<Region[]>(this.urlEndPoint + '/regiones').pipe(
+      catchError(e => {
+        this.isNoAutorizado(e);
+        return throwError( () => e );
+      })
+    );
   }
 
   getClientes(page:number):Observable <any> {
     //return of(CLIENTES);
     return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
       tap((response:any) => {
-        console.log('ClienteService: Tap 1');
+        //console.log('ClienteService: Tap 1');
         (response.content as Cliente[]).forEach(cliente =>{
-          console.log(cliente.nombre);
+          //console.log(cliente.nombre);
           
         })
       }),
@@ -46,9 +59,9 @@ export class ClienteService {
       }
       ),
       tap((response:any) => {
-        console.log('ClienteService: Tap 2');
+        //console.log('ClienteService: Tap 2');
         (response.content as Cliente[]).forEach(cliente =>{
-          console.log(cliente.nombre);
+          //console.log(cliente.nombre);
           
         })
       })
@@ -61,20 +74,31 @@ export class ClienteService {
       map((response:any) => response.cliente as Cliente),
       catchError(e =>{
 
-        if(e.status==400){
-          return throwError( () => e );
+        if (this.isNoAutorizado(e)) {
+          return throwError(e );
+          
         }
 
-        console.log(e.error.mensaje);
+        if(e.status==400){
+          return throwError(e);
+        }
+
+        //console.log(e.error.mensaje);
         Swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError( () => e );
       })
     )
+    
+    
   }
 
   getCliente(id): Observable <Cliente>{
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError(e => {
+        if (this.isNoAutorizado(e)) {
+          return throwError( () => e );
+        }
+
         this.router.navigate(['/clientes'])
         //console.error(e.error.mensaje)
         console.log(e.error.mensaje);
@@ -90,6 +114,10 @@ export class ClienteService {
     return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers: this.httpHeaders}).pipe(
       catchError(e =>{
 
+        if (this.isNoAutorizado(e)) {
+          return throwError( () => e );
+        }
+
         if(e.status==400){
           return throwError( () => e );
         }
@@ -104,6 +132,11 @@ export class ClienteService {
   delete(id:number):Observable<Cliente>{
     return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers: this.httpHeaders}).pipe(
       catchError(e =>{
+
+        if (this.isNoAutorizado(e)) {
+          return throwError( () => e );
+        }
+
         console.log(e.error.mensaje);
         Swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError( () => e );
@@ -119,6 +152,11 @@ export class ClienteService {
     const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`,formData, {
       reportProgress: true
     });
-    return this.http.request(req);
+    return this.http.request(req).pipe(
+      catchError(e => {
+        this.isNoAutorizado(e);
+        return throwError( () => e );
+      })
+    );
   }
 }
