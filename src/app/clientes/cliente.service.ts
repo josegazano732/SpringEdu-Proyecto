@@ -20,7 +20,7 @@ export class ClienteService {
 
   constructor(private http: HttpClient, private router:Router) { }
 
-  public isNoAutorizado(e:any):boolean{
+  public isNoAutorizado(e):boolean{
     if (e.status == 401 || e.status == 403) {
       this.router.navigate(['/login']);
       return true;
@@ -75,12 +75,12 @@ export class ClienteService {
       catchError(e =>{
 
         if (this.isNoAutorizado(e)) {
-          return throwError(e );
+          return throwError( () => e );
           
         }
 
         if(e.status==400){
-          return throwError(e);
+          return throwError( () => e );
         }
 
         //console.log(e.error.mensaje);
