@@ -22,7 +22,10 @@ export class AuthService {
     params.set('grant_type', 'password');
     params.set('username', usuario.username);
     params.set('password', usuario.password);
+
+    console.log(params.toString());
     
-    return this.http.post(urlEndPoint, params, {headers: httpHeaders});
+    
+    return this.http.post(urlEndPoint, params.toString(), {headers: httpHeaders});
   }
 }

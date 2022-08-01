@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from './usuario';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   usuario:Usuario;
 
-  constructor() { 
+  constructor(private authService:AuthService, private router:Router ) { 
     this.usuario = new Usuario();
   }
 
@@ -26,6 +28,15 @@ export class LoginComponent implements OnInit {
       Swal.fire('Error Login', 'Username o Password vacios!', 'error')
       return
     }
+    this.authService.login(this.usuario).subscribe(response => {
+      console.log(response);
+      let payload = JSON.parse(atob(response.access_token.split(".")[1]));
+      console.log(payload);
+      
+      
+      this.router.navigate(['/clientes']);
+      Swal.fire('Login', `Hola ${payload.user_name}, Inicio de Sesion con exito!`, 'success')      
+    });
     
   }
 
