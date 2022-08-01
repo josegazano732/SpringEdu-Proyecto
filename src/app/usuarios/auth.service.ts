@@ -8,6 +8,9 @@ import { Usuario } from './usuario';
 })
 export class AuthService {
 
+  private _usuario:Usuario;
+  private _token:string;
+
   constructor(private http: HttpClient) { }
 
   login(usuario:Usuario):Observable<any>{
@@ -27,5 +30,27 @@ export class AuthService {
     
     
     return this.http.post(urlEndPoint, params.toString(), {headers: httpHeaders});
+  }
+
+  guardarUsuario(access_token:string):void{
+    let payload = this.obtenerDatosToken(access_token);
+    this._usuario = new Usuario();
+    this._usuario.nombre = payload.nombre;
+    this._usuario.apellido = payload.apellido;
+    this._usuario.email = payload.email;
+    this._usuario.username = payload.user_name;
+    this._usuario.roles = payload.authorities;
+    sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
+  }
+
+  guardarToken(access_token:string):void{
+
+  }
+
+  obtenerDatosToken(access_token:string):any{
+    if (access_token != null) {
+      return JSON.parse(atob(access_token.split(".")[1]))
+    }
+    return null;
   }
 }
