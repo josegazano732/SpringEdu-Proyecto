@@ -76,6 +76,7 @@ export class AuthService {
     return null;
   }
 
+  //Metodo para validar si ya se encuentra autenticado o no.
   isAuthenticated():boolean{
     let payload = this.obtenerDatosToken(this.token);
     if(payload != null && payload.user_name && payload.user_name.length > 0){
