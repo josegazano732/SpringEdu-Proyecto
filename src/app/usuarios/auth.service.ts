@@ -52,6 +52,7 @@ export class AuthService {
     return this.http.post(urlEndPoint, params.toString(), {headers: httpHeaders});
   }
 
+  //Metodo para guardar usuario con su token.
   guardarUsuario(access_token:string):void{
     let payload = this.obtenerDatosToken(access_token);
     this._usuario = new Usuario();
@@ -63,6 +64,7 @@ export class AuthService {
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 
+  //Metodo guarda token en el ssesion Storage.
   guardarToken(access_token:string):void{
     this._token = access_token;
     sessionStorage.setItem('token', access_token);
@@ -83,5 +85,18 @@ export class AuthService {
       return true;
     }
     return false;
+  }
+
+  //Metodo elimina token y usuario.A la vez se elimina del sessionStorage.
+  logout():void{
+    this._token = null;
+    this._usuario = null;
+    //Borra todo del session.
+    sessionStorage.clear();
+    //Borra solo un elemento del session.
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('usuario');
+    
+
   }
 }
