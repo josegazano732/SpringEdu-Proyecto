@@ -1,7 +1,7 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -25,7 +25,7 @@ import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
 import { AuthGuard } from './usuarios/guards/auth.guard';
 import { RoleGuard } from './usuarios/guards/role.guard';
-
+import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 
 
 
@@ -69,7 +69,9 @@ const routes: Routes = [
     MatFormFieldModule,
     MatMomentDateModule
   ],
-  providers: [ClienteService,{provide: LOCALE_ID, useValue: 'es' }],
+  providers: [ClienteService,
+    {provide: LOCALE_ID, useValue: 'es' },
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

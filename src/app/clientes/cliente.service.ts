@@ -17,11 +17,12 @@ import { AuthService } from '../usuarios/auth.service';
 export class ClienteService {
   private urlEndPoint:string='http://localhost:8080/api/clientes'
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  //private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
-  //Metodo que agrega token a variable HttpHeaders cabecera para usara en cada llamada en los EndPoint.
+  //Metodo que agrega token a variable HttpHeaders cabecera para usar en cada llamada en los EndPoint.
+   /*
     agregarAuthorizationHeader(){
     let token = this.authService.token;
     if(token != null){
@@ -30,14 +31,15 @@ export class ClienteService {
     }
     return this.httpHeaders;
   }
+  */
 
   public isNoAutorizado(e):boolean{
     if (e.status == 401) {
-
+      //Condicion cierra sesion en angular cuando el token haya expirado.
       if(this.authService.isAuthenticated()){
         this.authService.logout();
       }
-      
+
       this.router.navigate(['/login']);
       return true;
     }
@@ -51,7 +53,7 @@ export class ClienteService {
   }
 
   getRegiones():Observable <Region[]> {
-    return this.http.get<Region[]>(this.urlEndPoint + '/regiones', {headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.get<Region[]>(this.urlEndPoint + '/regiones').pipe(
       catchError(e => {
         this.isNoAutorizado(e);
         return throwError( () => e );
@@ -92,7 +94,7 @@ export class ClienteService {
 
   //Metodo con operador map 
   create(cliente: Cliente): Observable<Cliente>{
-    return this.http.post(this.urlEndPoint,cliente,{headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.post(this.urlEndPoint,cliente).pipe(
       map((response:any) => response.cliente as Cliente),
       catchError(e =>{
 
@@ -115,7 +117,7 @@ export class ClienteService {
   }
 
   getCliente(id): Observable <Cliente>{
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError(e => {
         if (this.isNoAutorizado(e)) {
           return throwError( () => e );
@@ -133,7 +135,7 @@ export class ClienteService {
   }
 
   update(cliente:Cliente): Observable <any>{
-    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente,{headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`,cliente).pipe(
       catchError(e =>{
 
         if (this.isNoAutorizado(e)) {
@@ -152,7 +154,7 @@ export class ClienteService {
   }
 
   delete(id:number):Observable<Cliente>{
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`,{headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError(e =>{
 
         if (this.isNoAutorizado(e)) {
