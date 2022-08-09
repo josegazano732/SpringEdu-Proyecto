@@ -9,7 +9,7 @@ import { AuthService } from "../auth.service";
 export class TokenInterceptor implements HttpInterceptor{
 
     constructor(private authService: AuthService){}
-
+//En este interceptor manejamos (request) cuando enviamos los datos.
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         let token = this.authService.token;
