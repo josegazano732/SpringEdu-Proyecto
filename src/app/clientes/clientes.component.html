@@ -15,7 +15,7 @@
         <table class=" table table-bordered table-striped" *ngIf="clientes?.length > 0">
             <thead>
                 <tr>
-                    <th *ngIf="authService.hasRole('ROLE_USER')">Perfil</th>
+                    <th>Perfil</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
@@ -29,7 +29,7 @@
 
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td *ngIf="authService.hasRole('ROLE_USER')" class="text-center">
+                    <td lass="text-center">
                         <img  (click)="abrirModal(cliente)" *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}"
                                 alt="{{cliente.foto}}" class="img-thumbnail rounded m-auto" 
                                 style="width: 64px; cursor: pointer;">
