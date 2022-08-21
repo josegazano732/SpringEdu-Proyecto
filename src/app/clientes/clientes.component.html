@@ -15,12 +15,12 @@
         <table class=" table table-bordered table-striped" *ngIf="clientes?.length > 0">
             <thead>
                 <tr>
-                    <th>Perfil</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>fecha</th>
-                    <th *ngIf="authService.hasRole('ROLE_ADMIN')">
+                    <th class="text-center">Perfil</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Apellido</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">fecha</th>
+                    <th *ngIf="authService.hasRole('ROLE_ADMIN')" class="text-center">
                         editar
                     </th>
                     <th *ngIf="authService.hasRole('ROLE_ADMIN')">eliminar</th>
@@ -29,7 +29,7 @@
 
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td lass="text-center">
+                    <td class="text-center">
                         <img  (click)="abrirModal(cliente)" *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}"
                                 alt="{{cliente.foto}}" class="img-thumbnail rounded m-auto" 
                                 style="width: 64px; cursor: pointer;">

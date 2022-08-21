@@ -17,8 +17,10 @@ export class FacturaService {
     //return this.http.get<Factura>(this.urlEndPoint+'/'+id);
     //2ª Forma:
     return this.http.get<Factura>(`${this.urlEndPoint}/${id}`);
-    
+  }
 
+  delete(id:number):Observable<void>{
+    return this.http.delete<void>(`${this.urlEndPoint}/${id}`);
   }
 
  

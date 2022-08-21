@@ -49,21 +49,23 @@
                         <table class=" table table-bordered table-striped my-4 " *ngIf="cliente.facturas.length>0">
                             <thead>
                                 <tr>
-                                    <th>folio</th>
-                                    <th>descripcion</th>
-                                    <th>fecha</th>
-                                    <th>total</th>
-                                    <th>detalle</th>
+                                    <th class="text-center">folio</th>
+                                    <th class="text-center">descripcion</th>
+                                    <th class="text-center">fecha</th>
+                                    <th class="text-center">total</th>
+                                    <th class="text-center">detalle</th>
+                                    <th class="text-center">eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let factura of cliente.facturas">
-                                    <td>{{factura.id}}</td>
+                                    <td class="text-center">{{factura.id}}</td>
                                     <td>{{factura.descripcion}}</td>
-                                    <td>{{factura.createAt}}</td>
-                                    <td>{{factura.total}}</td>
-                                    <td><button class="btn btn-primary bt-sm" type="button"
+                                    <td class="text-center">{{factura.createAt}}</td>
+                                    <td class="text-center">$ {{factura.total}}</td>
+                                    <td class="text-center"><button class="btn btn-primary btn-sm" type="button"
                                         [routerLink]="['/facturas', factura.id]">ver</button></td>
+                                    <td class="text-center"><button class="btn btn-danger btn-sm" type="button" (click)="delete(factura)">eliminar</button></td>    
                                 </tr>
                             </tbody>
                         </table>
