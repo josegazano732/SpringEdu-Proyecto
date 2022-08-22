@@ -6,7 +6,7 @@ import { Factura } from './models/factura';
 @Component({
   selector: 'app-facturas',
   templateUrl: './facturas.component.html',
-  styleUrls: ['./facturas.component.css']
+  
 })
 export class FacturasComponent implements OnInit {
 
@@ -21,8 +21,8 @@ export class FacturasComponent implements OnInit {
     this.activateRoute.paramMap.subscribe(params => {
       let clienteId = +params.get('clienteId');//Obtiene a travez de la ruta su clienteID.
       //Obtiene a clienteId desde backend y lo asignamos a atributo cliente de factura para su nueva instancia de factura.
-      this.clienteService.getCliente(clienteId).subscribe(cliente => this.factura.cliente = cliente)
-    })
+      this.clienteService.getCliente(clienteId).subscribe(cliente => this.factura.cliente = cliente);
+    });
   }
 
 }

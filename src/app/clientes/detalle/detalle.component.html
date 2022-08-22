@@ -40,6 +40,10 @@
                                 alt="{{cliente.foto}}" class="img-thumbnail rounded m-auto">
                         </div>
                     </div>
+
+                    <div class="row">
+                        <button type="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">crear factura</button>
+                    </div>
                     <div class="row">
 
                         <div class=" alert alert-info my-4" *ngIf="cliente.facturas.length==0">
