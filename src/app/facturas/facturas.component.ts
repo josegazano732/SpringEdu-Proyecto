@@ -5,6 +5,8 @@ import { Factura } from './models/factura';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { FacturaService } from './services/factura.service';
+import { Producto } from './models/producto';
 
 @Component({
   selector: 'app-facturas',
@@ -17,11 +19,12 @@ export class FacturasComponent implements OnInit {
   factura:Factura = new Factura();
 
   autocompleteControl = new FormControl('');
-  productos: string[] = ['Tv 32 Smartv', 'Plancha a vapor', 'Juego de comedor 6 sillas'];
-  productosFiltrados: Observable<string[]>;
+  
+  productosFiltrados: Observable<Producto[]>;
 
   constructor(private clienteService: ClienteService,
-    private activateRoute:ActivatedRoute) { }
+    private activateRoute:ActivatedRoute,
+    private facturaService:FacturaService) { }
 
   ngOnInit(): void {
     //Se obtiene el cliente por id para asignar el cliente a nueva instancia de factura.
@@ -32,20 +35,18 @@ export class FacturasComponent implements OnInit {
     });
 
     this.productosFiltrados = this.autocompleteControl.valueChanges.pipe(
-      startWith(''),
+     
       map(value => this._filter(value || '')),
     );
 
   }
 
-  
 
- 
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Observable <Producto[]> {
     const filterValue = value.toLowerCase();
 
-    return this.productos.filter(option => option.toLowerCase().includes(filterValue));
+    return this.facturaService.filtrarProductos(filterValue);
   }
 
 }
