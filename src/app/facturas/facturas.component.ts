@@ -4,7 +4,7 @@ import { ClienteService } from '../clientes/cliente.service';
 import { Factura } from './models/factura';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {map, flatMap, mergeMap} from 'rxjs/operators';
 import { FacturaService } from './services/factura.service';
 import { Producto } from './models/producto';
 
@@ -35,18 +35,20 @@ export class FacturasComponent implements OnInit {
     });
 
     this.productosFiltrados = this.autocompleteControl.valueChanges.pipe(
-     
-      map(value => this._filter(value || '')),
+      map(value => typeof value === 'string'? value: value.nombre),
+      mergeMap(value => value? this._filter(value): []),
     );
 
   }
-
-
 
   private _filter(value: string): Observable <Producto[]> {
     const filterValue = value.toLowerCase();
 
     return this.facturaService.filtrarProductos(filterValue);
+  }
+
+  mostrarNombre(producto?: Producto): string | undefined {
+    return producto? producto.nombre : undefined;
   }
 
 }
