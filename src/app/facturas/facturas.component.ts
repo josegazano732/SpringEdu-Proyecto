@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../clientes/cliente.service';
 import { Factura } from './models/factura';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, flatMap, mergeMap} from 'rxjs/operators';
+import {map, mergeMap} from 'rxjs/operators';
 import { FacturaService } from './services/factura.service';
 import { Producto } from './models/producto';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ItemFactura } from './models/item-factura';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facturas',
@@ -26,7 +27,8 @@ export class FacturasComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
     private activateRoute:ActivatedRoute,
-    private facturaService:FacturaService) { }
+    private facturaService:FacturaService,
+    private router:Router) { }
 
   ngOnInit(): void {
     //Se obtiene el cliente por id para asignar el cliente a nueva instancia de factura.
@@ -111,6 +113,14 @@ export class FacturasComponent implements OnInit {
 
   eliminarItemFactura(id:number):void{
     this.factura.items = this.factura.items.filter((item: ItemFactura) => id !== item.producto.id);
+  }
+
+  create():void{
+    console.log(this.factura);
+    this.facturaService.create(this.factura).subscribe(factura => {
+      Swal.fire(this.titulo, `Factura ${factura.descripcion} creada con exito! `, `success` );
+      this.router.navigate(['/clientes']);
+    })
   }
 
 }
