@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" *ngIf="authService.hasRole('ROLE_ADMIN')">
                         <button type="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">crear factura</button>
                     </div>
                     <div class="row">
@@ -58,7 +58,7 @@
                                     <th class="text-center">fecha</th>
                                     <th class="text-center">total</th>
                                     <th class="text-center">detalle</th>
-                                    <th class="text-center">eliminar</th>
+                                    <th class="text-center" *ngIf="authService.hasRole('ROLE_ADMIN')">eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,7 +69,7 @@
                                     <td class="text-center">$ {{factura.total}}</td>
                                     <td class="text-center"><button class="btn btn-primary btn-sm" type="button"
                                         [routerLink]="['/facturas', factura.id]">ver</button></td>
-                                    <td class="text-center"><button class="btn btn-danger btn-sm" type="button" (click)="delete(factura)">eliminar</button></td>    
+                                    <td class="text-center" *ngIf="authService.hasRole('ROLE_ADMIN')"><button class="btn btn-danger btn-sm" type="button" (click)="delete(factura)">eliminar</button></td>    
                                 </tr>
                             </tbody>
                         </table>

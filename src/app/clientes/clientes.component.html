@@ -15,12 +15,12 @@
         <table class=" table table-bordered table-striped" *ngIf="clientes?.length > 0">
             <thead>
                 <tr>
-                    <th class="text-center">Perfil</th>
+                    <th class="text-center" *ngIf="authService.hasRole('ROLE_USER')">Perfil</th>
                     <th class="text-center">Nombre</th>
                     <th class="text-center">Apellido</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">fecha</th>
-                    <th class="text-center">crear factura</th>
+                    <th class="text-center" *ngIf="authService.hasRole('ROLE_ADMIN')">crear factura</th>
                     <th *ngIf="authService.hasRole('ROLE_ADMIN')" class="text-center">
                         editar
                     </th>
@@ -30,7 +30,7 @@
 
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td class="text-center">
+                    <td class="text-center" *ngIf="authService.hasRole('ROLE_USER')">
                         <img  (click)="abrirModal(cliente)" *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}"
                                 alt="{{cliente.foto}}" class="img-thumbnail rounded m-auto" 
                                 style="width: 64px; cursor: pointer;">
@@ -43,7 +43,7 @@
                     <td>{{cliente.apellido | uppercase}}</td>
                     <td>{{cliente.email}}</td>
                     <td>{{cliente.createAt | date:"EEEE dd, MMMM yyyy"}}</td>
-                    <td class="text-center"><button type="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">crear factura</button></td>
+                    <td class="text-center" *ngIf="authService.hasRole('ROLE_ADMIN')"><button type="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">crear factura</button></td>
                     <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                         <button type="button" name="editar" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary btn-sm">editar</button>
                     </td>
