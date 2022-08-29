@@ -39,7 +39,7 @@ export class FormComponent implements OnInit {
   create(): void {
     console.log(this.cliente);
     this.clienteService.create(this.cliente).subscribe(
-      cliente => { 
+      (cliente) => { 
       this.route.navigate(['/clientes'])
       Swal.fire('Nuevo Cliente', `El cliente ${cliente.nombre} ha sido creado con exito`, 'success');
       },
@@ -54,7 +54,7 @@ export class FormComponent implements OnInit {
    //Metodo sin operador map en servicio con tipo ANY generico y el mensaje y nombre obtenemos directamente del back-end 
   update():void{
     console.log(this.cliente);
-    
+    this.cliente.facturas = null;
     this.clienteService.update(this.cliente)
     .subscribe(json =>{
       this.route.navigate(['/clientes'])
