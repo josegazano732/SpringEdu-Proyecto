@@ -14,7 +14,7 @@ import { Region } from './region';
 export class FormComponent implements OnInit {
 
   titulo:string="Crear Cliente";
-  cliente:Cliente= new Cliente();
+  public cliente:Cliente= new Cliente();
   regiones:Region[];
   errores:string[];
   
@@ -39,7 +39,7 @@ export class FormComponent implements OnInit {
   create(): void {
     console.log(this.cliente);
     this.clienteService.create(this.cliente).subscribe(
-      (cliente) => { 
+      cliente => { 
       this.route.navigate(['/clientes'])
       Swal.fire('Nuevo Cliente', `El cliente ${cliente.nombre} ha sido creado con exito`, 'success');
       },
