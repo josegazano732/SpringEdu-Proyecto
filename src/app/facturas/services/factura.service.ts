@@ -4,12 +4,14 @@ import { Factura } from '../models/factura';
 import { Injectable } from '@angular/core';
 import { Producto } from '../models/producto';
 
+import { URL_BACKEND } from 'src/app/config/config';
+
 @Injectable({
   providedIn: 'root'
 })
 export class FacturaService {
 
-  private urlEndPoint: string = 'http://localhost:8080/api/facturas';
+  private urlEndPoint: string = URL_BACKEND +'/api/facturas';
 
   constructor(private http: HttpClient) { }
 

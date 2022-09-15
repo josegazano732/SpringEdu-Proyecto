@@ -6,6 +6,7 @@ import { ModalService } from './detalle/modal.service';
 import { tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../usuarios/auth.service';
+import { URL_BACKEND } from '../config/config';
 
 
 
@@ -18,6 +19,7 @@ export class ClientesComponent implements OnInit {
   clientes: Cliente[];
   paginador:any;
   clienteSeleccionado:Cliente;
+  urlBackend: string= URL_BACKEND;
 
 
   constructor(private http: ClienteService,

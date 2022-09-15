@@ -1,0 +1,1 @@
+export const URL_BACKEND = 'https://jlg-clientes.herokuapp.com';
